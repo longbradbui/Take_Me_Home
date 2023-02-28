@@ -9,7 +9,7 @@ public class Node extends JButton implements ActionListener {
     int row;
     boolean startingNode;
     boolean goalNode;
-    boolean solidNode;
+    boolean wall;
     int gCost;
     int hCost;
     int fCost;
@@ -30,18 +30,28 @@ public class Node extends JButton implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        setBackground(Color.RED);
-    }
-    public void setStartingNode(){
         setBackground(Color.GREEN);
+        System.out.println(fCost);
+    }
+    public int getColumn(){
+        return column;
+    }
+    public int getRow(){
+        return row;
+    }
+    public void locateStart(){
+        setBackground(Color.BLUE);
         setForeground(Color.WHITE);
-        setText("START");
         startingNode = true;
     }
-    public void setGoalNode(){
-        setBackground(Color.YELLOW);
+    public void locateGoal(){
+        setBackground(Color.RED);
         setForeground(Color.BLACK);
-        setText("GOAL");
         goalNode = true;
+    }
+    public void locateWall(){
+        setBackground(Color.BLACK);
+        setForeground(Color.WHITE);
+        wall = true;
     }
 }
