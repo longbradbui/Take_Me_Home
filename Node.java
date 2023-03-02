@@ -24,17 +24,6 @@ public class Node extends JButton implements ActionListener {
         addActionListener(this);
     }
 
-    /**
-     * Invoked when an action occurs.
-     *
-     * @param e the event to be processed
-     */
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        setBackground(Color.GREEN);
-        System.out.println(fCost);
-    }
-
     public int getColumn() {
         return column;
     }
@@ -44,23 +33,28 @@ public class Node extends JButton implements ActionListener {
     }
 
     public void locateStart() {
-        setText("Start");
         setBackground(Color.BLUE);
         setForeground(Color.WHITE);
         startingNode = true;
     }
 
     public void locateGoal() {
-        setText("Goal");
         setBackground(Color.RED);
         setForeground(Color.BLACK);
         goalNode = true;
     }
 
     public void locateWall() {
-        setBackground(Color.BLACK);
-        setForeground(Color.WHITE);
-        isWall = true;
+        if (!startingNode && !goalNode) {
+            isWall = !isWall;
+            if (isWall) {
+                setBackground(Color.BLACK);
+                setForeground(Color.WHITE);
+            } else {
+                setBackground(Color.WHITE);
+                setForeground(Color.BLACK);
+            }
+        }
     }
 
     public boolean isOpen() {
@@ -77,7 +71,7 @@ public class Node extends JButton implements ActionListener {
 
     public void setChecked() {
         if (!startingNode && !goalNode) {
-            setBackground(Color.orange);
+            setBackground(Color.YELLOW);
             setForeground(Color.black);
         }
         isChecked = true;
@@ -86,5 +80,15 @@ public class Node extends JButton implements ActionListener {
     public void isPath() {
         setBackground(Color.GREEN);
         setForeground(Color.black);
+    }
+    
+    /**
+     * Invoked when an action occurs.
+     *
+     * @param e the event to be processed
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        locateWall();
     }
 }

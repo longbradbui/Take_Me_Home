@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Panel extends JPanel {
     public static final int maxColumn = 20;
-    public static final int maxRow = 25;
-    public static final int nodeSize = 70;
+    public static final int maxRow = 20;
+    public static final int nodeSize = 30;
     public static final int screenWidth = nodeSize * maxColumn;
     public static final int screenHeight = nodeSize * maxRow;
     boolean foundGoal = false;
@@ -24,6 +24,7 @@ public class Panel extends JPanel {
         this.setLayout(new GridLayout(maxRow, maxColumn));
         this.addKeyListener(new KeyHandler(this));
         this.setFocusable(true);
+        this.requestFocus();
         // Place the Node
         int column = 0;
         int row = 0;
@@ -36,26 +37,12 @@ public class Panel extends JPanel {
                 row++;
             }
         }
-        // SET STARTING NODE - GOAL NODE - WALL
-        setStartingNode(3, 5);
-        setGoalNode(13, 10);
-        setWall(10, 12);
-        setWall(10, 11);
-        setWall(10, 10);
-        setWall(10, 9);
-        setWall(10, 8);
-        setWall(10, 7);
-        setWall(10, 6);
-        setWall(10, 5);
-        setWall(10, 4);
-        setWall(10, 3);
-        setWall(11, 12);
-        setWall(12, 12);
-        setWall(13, 12);
-        setWall(9, 3);
-        setWall(8, 3);
-        // SET COST OF EACH NODE
-        showCost();
+        setStartingNode(3, 3);
+        setGoalNode(11, 11);
+        setWall(11,10);
+        setWall(10,9);
+        setWall(9,9);
+        setWall(8,8);
     }
 
     private void setStartingNode(int column, int row) {
@@ -76,7 +63,6 @@ public class Panel extends JPanel {
     private void showCost() {
         int column = 0;
         int row = 0;
-
         while (column < maxColumn && row < maxRow) {
             getCost(position[column][row]);
             column++;
@@ -102,7 +88,7 @@ public class Panel extends JPanel {
         if (node != startingNode && node != goalNode) node.setText("G: " + node.gCost);
     }
 
-    public void pathSearch() {
+    public void pathSearching() {
         while (!foundGoal && isContinue) {
             int column = currentNode.getColumn();
             int row = currentNode.getRow();
@@ -113,23 +99,21 @@ public class Panel extends JPanel {
             if (column - 1 >= 0) evaluateNode(position[column - 1][row]);          //  OPEN THE LEFT NODE
             if (row + 1 < maxColumn) evaluateNode(position[column][row + 1]);     //   OPEN THE LOWER NODE
             if (column + 1 < maxColumn) evaluateNode(position[column + 1][row]); //    OPEN THE RIGHT NODE
-
             // FIND THE OPTIMAL NODE
             int bestNodeIndex = 0;
             int bestNodefCOst = Integer.MAX_VALUE;
-            for (int i = 0; i < openNode_List.size(); i++){
+            for (int i = 0; i < openNode_List.size(); i++) {
                 if (openNode_List.get(i).fCost < bestNodefCOst) {
                     bestNodeIndex = i;
                     bestNodefCOst = openNode_List.get(i).fCost;
-                }
-                else if (openNode_List.get(i).fCost == bestNodefCOst){
-                    if (openNode_List.get(i).gCost < openNode_List.get(i).gCost) {
+                } else if (openNode_List.get(i).fCost == bestNodefCOst) {
+                    if (openNode_List.get(i).gCost < currentNode.gCost) {
                         bestNodeIndex = i;
                     }
                 }
             }
             currentNode = openNode_List.get(bestNodeIndex);
-            if (currentNode == goalNode){
+            if (currentNode == goalNode) {
                 foundGoal = true;
                 isContinue = false;
                 pathTracking();
@@ -140,16 +124,16 @@ public class Panel extends JPanel {
     }
 
     private void evaluateNode(Node node) {
-        if (!node.isChecked() && !node.isOpen() && !node.isWall()) {
+        if (!node.isWall() && !node.isChecked() && !node.isOpen()) {
             node.isOpen();
             node.parentNode = currentNode;
             openNode_List.add(node);
         }
     }
 
-    private void pathTracking(){
+    private void pathTracking() {
         Node current = goalNode;
-        while (current != startingNode){
+        while (current != startingNode) {
             current = current.parentNode;
             if (current != startingNode) current.isPath();
         }

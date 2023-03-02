@@ -4,6 +4,9 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
     Panel panel;
 
+    /**
+     * @param panel
+     */
     public KeyHandler(Panel panel) {
         this.panel = panel;
     }
@@ -31,7 +34,7 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int type = e.getKeyCode();
         if (type == KeyEvent.VK_ENTER) {
-            panel.pathSearch();
+            ((Panel)panel).pathSearching();
         }
     }
 
