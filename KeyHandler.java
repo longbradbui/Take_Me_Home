@@ -2,9 +2,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
-    Panel panel;
-    public KeyHandler(Panel panel){
-        this.panel = panel;
+    Grid_Panel gridPanel;
+    public KeyHandler(Grid_Panel gridPanel){
+        this.gridPanel = gridPanel;
     }
     /**
      * Invoked when a key has been typed.
@@ -29,7 +29,7 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int type = e.getKeyCode();
         if (type == KeyEvent.VK_ENTER){
-            panel.pathSearch();
+            gridPanel.pathSearch();
         }
     }
 
