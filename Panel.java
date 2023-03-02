@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Grid_Panel extends JPanel {
+public class Panel extends JPanel {
     public static final int maxColumn = 20;
     public static final int maxRow = 25;
     public static final int nodeSize = 70;
@@ -18,7 +18,7 @@ public class Grid_Panel extends JPanel {
     ArrayList<Node> openNode_List = new ArrayList<>();
     ArrayList<Node> isChecked_List = new ArrayList<>();
 
-    public Grid_Panel() {
+    public Panel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
         this.setLayout(new GridLayout(maxRow, maxColumn));
@@ -54,7 +54,8 @@ public class Grid_Panel extends JPanel {
         setWall(13, 12);
         setWall(9, 3);
         setWall(8, 3);
-
+        // SET COST OF EACH NODE
+        showCost();
     }
 
     private void setStartingNode(int column, int row) {
@@ -98,7 +99,7 @@ public class Grid_Panel extends JPanel {
         // GET F-COST: The total cost of hCost and fCost
         node.fCost = node.gCost + node.hCost;
         // DISPLAYING THE COST ON NODE
-        if (node != startingNode && node != goalNode);
+        if (node != startingNode && node != goalNode) node.setText("G: " + node.gCost);
     }
 
     public void pathSearch() {
