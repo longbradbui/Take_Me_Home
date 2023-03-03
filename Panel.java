@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Panel extends JPanel {
-    public static final int maxColumn = 20;
-    public static final int maxRow = 20;
-    public static final int nodeSize = 30;
+    public static final int maxColumn = 25;
+    public static final int maxRow = 25;
+    public static final int nodeSize = 35;
     public static final int screenWidth = nodeSize * maxColumn;
     public static final int screenHeight = nodeSize * maxRow;
     boolean foundGoal = false;
@@ -27,7 +27,6 @@ public class Panel extends JPanel {
         this.addKeyListener(new KeyHandler(this));
         this.setFocusable(true);
         this.requestFocus();
-        // Place the Node
         int column = 0;
         int row = 0;
         while (row < maxRow && column < maxColumn) {
@@ -39,14 +38,15 @@ public class Panel extends JPanel {
                 row++;
             }
         }
-        setStartingNode(3, 3);
-        setGoalNode(11, 11);
+        setStartingNode(5,5);
+        setGoalNode(randomCol, randomRow);
         for (int i = 0; i < 100; i++) {
-            setWall(getRandomWallCoor(18, 2), getRandomWallCoor(15, 3));
+            setWall(getRandomCoordinate(25, 1), getRandomCoordinate(25, 1));
+            setWall(getRandomCoordinate(20, 2), getRandomCoordinate(20, 2));
         }
     }
 
-    public static int getRandomWallCoor(int maximum, int minimum) {
+    public static int getRandomCoordinate(int maximum, int minimum) {
         return ((int) (Math.random() * (maximum - minimum))) + minimum;
     }
 
