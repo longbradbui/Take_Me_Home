@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Panel extends JPanel {
     public static final int maxColumn = 20;
@@ -10,13 +11,14 @@ public class Panel extends JPanel {
     public static final int screenHeight = nodeSize * maxRow;
     boolean foundGoal = false;
     boolean isContinue = true;
-    int step = 0;
     Node[][] position = new Node[maxColumn][maxRow];
     Node startingNode;
     Node goalNode;
     Node currentNode;
     ArrayList<Node> openNode_List = new ArrayList<>();
-    ArrayList<Node> isChecked_List = new ArrayList<>();
+    Random r1 = new Random();
+    int randomCol = r1.nextInt(maxColumn);
+    int randomRow = r1.nextInt(maxRow);
 
     public Panel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -39,10 +41,13 @@ public class Panel extends JPanel {
         }
         setStartingNode(3, 3);
         setGoalNode(11, 11);
-        setWall(11,10);
-        setWall(10,9);
-        setWall(9,9);
-        setWall(8,8);
+        for (int i = 0; i < 100; i++) {
+            setWall(getRandomWallCoor(18, 2), getRandomWallCoor(15, 3));
+        }
+    }
+
+    public static int getRandomWallCoor(int maximum, int minimum) {
+        return ((int) (Math.random() * (maximum - minimum))) + minimum;
     }
 
     private void setStartingNode(int column, int row) {
@@ -93,13 +98,12 @@ public class Panel extends JPanel {
             int column = currentNode.getColumn();
             int row = currentNode.getRow();
             currentNode.setChecked();
-            isChecked_List.add(currentNode);
             openNode_List.remove(currentNode);
             if (row - 1 >= 0) evaluateNode(position[column][row - 1]);              // OPEN THE UPPER NODE
             if (column - 1 >= 0) evaluateNode(position[column - 1][row]);          //  OPEN THE LEFT NODE
             if (row + 1 < maxColumn) evaluateNode(position[column][row + 1]);     //   OPEN THE LOWER NODE
             if (column + 1 < maxColumn) evaluateNode(position[column + 1][row]); //    OPEN THE RIGHT NODE
-            // FIND THE OPTIMAL NODE
+            // FIND THE OPTIMAL NODE //
             int bestNodeIndex = 0;
             int bestNodefCOst = Integer.MAX_VALUE;
             for (int i = 0; i < openNode_List.size(); i++) {
@@ -117,9 +121,7 @@ public class Panel extends JPanel {
                 foundGoal = true;
                 isContinue = false;
                 pathTracking();
-                System.out.println("It took " + step + " steps to find the path");
             }
-            step++;
         }
     }
 
@@ -135,7 +137,9 @@ public class Panel extends JPanel {
         Node current = goalNode;
         while (current != startingNode) {
             current = current.parentNode;
-            if (current != startingNode) current.isPath();
+            if (current != startingNode) {
+                current.isPath();
+            }
         }
     }
 }
