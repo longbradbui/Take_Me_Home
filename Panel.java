@@ -1,12 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Panel extends JPanel {
     public static final int maxColumn = 25;
     public static final int maxRow = 25;
-    public static final int nodeSize = 35;
+    public static final int nodeSize = 40;
     public static final int screenWidth = nodeSize * maxColumn;
     public static final int screenHeight = nodeSize * maxRow;
     boolean foundGoal = false;
@@ -19,27 +22,85 @@ public class Panel extends JPanel {
     Random r1 = new Random();
     int randomCol = r1.nextInt(maxColumn);
     int randomRow = r1.nextInt(maxRow);
+    JButton regenerateButton;
+    JButton pathfindingButton;
+    JPanel buttonPanel;
 
     public Panel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
-        this.setLayout(new GridLayout(maxRow, maxColumn));
-        this.addKeyListener(new KeyHandler(this));
-        this.setFocusable(true);
-        this.requestFocus();
+        this.setLayout(new BorderLayout());
+        // Add grid panel
+        JPanel gridPanel = new JPanel();
+        gridPanel.setLayout(new GridLayout(maxRow, maxColumn));
+        this.add(gridPanel, BorderLayout.CENTER);
+        //
         int column = 0;
         int row = 0;
         while (row < maxRow && column < maxColumn) {
             position[column][row] = new Node(column, row);
-            this.add(position[column][row]);
+            gridPanel.add(position[column][row]);
             column++;
             if (column == maxColumn) {
                 column = 0;
                 row++;
             }
         }
-        setStartingNode(5,5);
+        setStartingNode(3, 3);
         setGoalNode(randomCol, randomRow);
+        for (int i = 0; i < 100; i++) {
+            setWall(getRandomCoordinate(25, 1), getRandomCoordinate(25, 1));
+            setWall(getRandomCoordinate(20, 2), getRandomCoordinate(20, 2));
+        }
+
+        // Add button panel
+        buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout());
+        buttonPanel.setPreferredSize(new Dimension(screenWidth, 45));
+        this.add(buttonPanel, BorderLayout.SOUTH);
+        // Add regenerate button
+        regenerateButton = new JButton("Generate Board");
+        regenerateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                regenerateBoard();
+            }
+        });
+        buttonPanel.add(regenerateButton);
+        // Add pathfinding button
+        pathfindingButton = new JButton("Find Path");
+        pathfindingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pathSearching();
+            }
+        });
+        buttonPanel.add(pathfindingButton);
+        this.setFocusable(true);
+        this.requestFocus();
+        this.addKeyListener(new KeyHandler(this));
+    }
+
+    public void regenerateBoard() {
+        foundGoal = false;
+        isContinue = true;
+        openNode_List.clear();
+        startingNode = null;
+        goalNode = null;
+        currentNode = null;
+        // Clear all nodes
+        for (int column = 0; column < maxColumn; column++) {
+            for (int row = 0; row < maxRow; row++) {
+                position[column][row].reset();
+            }
+        }
+        randomCol = r1.nextInt(maxColumn);
+        randomRow = r1.nextInt(maxRow);
+        // Set starting node
+        setStartingNode(3, 3);
+        // Set goal node
+        setGoalNode(randomCol, randomRow);
+        // Add walls
         for (int i = 0; i < 100; i++) {
             setWall(getRandomCoordinate(25, 1), getRandomCoordinate(25, 1));
             setWall(getRandomCoordinate(20, 2), getRandomCoordinate(20, 2));

@@ -10,6 +10,7 @@ public class KeyHandler implements KeyListener {
     public KeyHandler(Panel panel) {
         this.panel = panel;
     }
+
     /**
      * Invoked when a key has been pressed.
      * See the class description for {@link KeyEvent} for a definition of
@@ -19,11 +20,9 @@ public class KeyHandler implements KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
-        int type = e.getKeyCode();
-        if (type == KeyEvent.VK_ENTER) {
-            panel.pathSearching();
-        }
+
     }
+
     /**
      * Invoked when a key has been typed.
      * See the class description for {@link KeyEvent} for a definition of
@@ -44,5 +43,6 @@ public class KeyHandler implements KeyListener {
      * @param e the event to be processed
      */
     @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {
+    }
 }

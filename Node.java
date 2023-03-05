@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Node extends JButton implements ActionListener {
+public class Node extends JButton {
     Node parentNode;
     int column;
     int row;
@@ -21,7 +21,6 @@ public class Node extends JButton implements ActionListener {
         this.row = row;
         setBackground(Color.WHITE);
         setForeground(Color.BLACK);
-        addActionListener(this);
     }
 
     public int getColumn() {
@@ -81,13 +80,15 @@ public class Node extends JButton implements ActionListener {
         setBackground(Color.GREEN);
         setForeground(Color.black);
     }
-    
-    /**
-     * Invoked when an action occurs.
-     *
-     * @param e the event to be processed
-     */
-    @Override
-    public void actionPerformed(ActionEvent e) {
+
+    public void reset() {
+        isChecked = false;
+        isOpen = false;
+        isWall = false;
+        parentNode = null;
+        setBackground(Color.WHITE);
+        setText("");
     }
+
+
 }
