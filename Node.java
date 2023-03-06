@@ -87,8 +87,5 @@ public class Node extends JButton {
         isWall = false;
         parentNode = null;
         setBackground(Color.WHITE);
-        setText("");
     }
-
-
 }

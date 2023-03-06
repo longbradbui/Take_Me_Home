@@ -9,5 +9,6 @@ public class Main {
             grid.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             grid.pack();
             grid.setLocationRelativeTo(null);
+
     }
 }
