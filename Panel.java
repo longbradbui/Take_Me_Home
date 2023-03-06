@@ -20,10 +20,12 @@ public class Panel extends JPanel {
     Node currentNode;
     ArrayList<Node> openNode_List = new ArrayList<>();
     Random r1 = new Random();
+    int stepTaken = 0;
     int randomCol = r1.nextInt(maxColumn);
     int randomRow = r1.nextInt(maxRow);
     JButton regenerateButton;
     JButton pathfindingButton;
+    JButton quitButton;
     JPanel buttonPanel;
 
     public Panel() {
@@ -76,6 +78,19 @@ public class Panel extends JPanel {
             }
         });
         buttonPanel.add(pathfindingButton);
+        // Create Quit button
+        quitButton = new JButton("Quit");
+        quitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int choice = JOptionPane.showConfirmDialog(Panel.this, "Are you sure you want to quit?", "Quit", JOptionPane.YES_NO_OPTION);
+                if (choice == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        });
+        buttonPanel.add(quitButton);
+        // Set the focus on the current panel
         this.setFocusable(true);
         this.requestFocus();
     }
@@ -83,10 +98,10 @@ public class Panel extends JPanel {
     public void regenerateBoard() {
         foundGoal = false;
         isContinue = true;
-        openNode_List.clear();
         startingNode = null;
         goalNode = null;
         currentNode = null;
+        openNode_List.clear();
         // Clear all nodes
         for (int column = 0; column < maxColumn; column++) {
             for (int row = 0; row < maxRow; row++) {
@@ -154,6 +169,7 @@ public class Panel extends JPanel {
     }
 
     public void pathSearching() {
+        long startTime = System.currentTimeMillis(); // STARTING TIME
         while (!foundGoal && isContinue) {
             int column = currentNode.getColumn();
             int row = currentNode.getRow();
@@ -183,11 +199,14 @@ public class Panel extends JPanel {
                 pathTracking();
             }
         }
+        long endTime = System.currentTimeMillis(); // END TIME
+        double elapsedTimeInSeconds = (endTime - startTime) / 1000.0; // convert to seconds
+        JOptionPane.showMessageDialog(this, "Path is found in " + elapsedTimeInSeconds + " second(s)");
     }
 
     private void evaluateNode(Node node) {
         if (!node.isWall() && !node.isChecked() && !node.isOpen()) {
-            node.isOpen();
+            node.setOpened();
             node.parentNode = currentNode;
             openNode_List.add(node);
         }
@@ -199,10 +218,9 @@ public class Panel extends JPanel {
             current = current.parentNode;
             if (current != startingNode) {
                 current.drawPath();
+                stepTaken++;
+                System.out.println(stepTaken);
             }
         }
-    }
-    public void pathSearchingWithTime() {
-        
     }
 }

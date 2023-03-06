@@ -56,16 +56,16 @@ public class Node extends JButton {
         }
     }
 
-    public boolean isOpen() {
-        return isOpen;
-    }
-
     public boolean isWall() {
         return isWall;
     }
 
     public boolean isChecked() {
         return isChecked;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
     }
 
     public void setChecked() {
@@ -76,7 +76,11 @@ public class Node extends JButton {
         isChecked = true;
     }
 
-    public void drawPath(){
+    public void setOpened() {
+        isOpen = true;
+    }
+
+    public void drawPath() {
         setBackground(Color.GREEN);
         setForeground(Color.black);
     }
