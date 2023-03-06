@@ -8,7 +8,6 @@ public class KeyHandler implements KeyListener {
      * @param panel
      */
     public KeyHandler(Panel panel) {
-        this.panel = panel;
     }
 
     /**
@@ -20,7 +19,6 @@ public class KeyHandler implements KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
-
     }
 
     /**

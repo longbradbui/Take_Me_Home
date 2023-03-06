@@ -76,7 +76,7 @@ public class Node extends JButton {
         isChecked = true;
     }
 
-    public void isPath() {
+    public void drawPath(){
         setBackground(Color.GREEN);
         setForeground(Color.black);
     }

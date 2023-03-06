@@ -2,9 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Random;
+
 
 public class Panel extends JPanel {
     public static final int maxColumn = 25;
@@ -78,7 +78,6 @@ public class Panel extends JPanel {
         buttonPanel.add(pathfindingButton);
         this.setFocusable(true);
         this.requestFocus();
-        this.addKeyListener(new KeyHandler(this));
     }
 
     public void regenerateBoard() {
@@ -199,7 +198,7 @@ public class Panel extends JPanel {
         while (current != startingNode) {
             current = current.parentNode;
             if (current != startingNode) {
-                current.isPath();
+                current.drawPath();
             }
         }
     }
