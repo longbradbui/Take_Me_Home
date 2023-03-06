@@ -6,7 +6,7 @@ public class UnitTest {
         Panel panel = new Panel();
         panel.regenerateBoard();
 
-        // Check if starting node is reset
+        // Check if the starting node is reset
         assertFalse(panel.startingNode.isWall());
         assertFalse(panel.startingNode.isChecked());
         assertNull(panel.startingNode.parentNode);
