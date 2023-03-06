@@ -196,20 +196,27 @@ private void setWall(int column, int row) {
     position[column][row].locateWall();
 }
 
+/**
+ * Calculates the G, H, and F costs of the specified node in the A* pathfinding algorithm and displays the G cost on
+ * the node for debugging purposes.
+ *
+ * @param node the node for which to calculate the costs
+ */
 private void getCost(Node node) {
-    // GET G-COST: The distance from the Starting Node.
-    int dx = Math.abs(node.getColumn() - startingNode.getColumn());
-    int dy = Math.abs(node.getRow() - startingNode.getRow());
-    node.gCost = dx + dy;
-    // GET H-COST: The distance from the Ending Node.
-    dx = Math.abs(node.getColumn() - goalNode.getColumn());
-    dy = Math.abs(node.getRow() - goalNode.getRow());
-    node.hCost = dx + dy;
-    // GET F-COST: The total cost of hCost and fCost
+    // Calculate the G-Cost: The distance from the STARTING node
+    int dx = Math.abs(node.getColumn() - startingNode.getColumn());  // Horizontal Distance from the current to start
+    int dy = Math.abs(node.getRow() - startingNode.getRow());       //  Vertical Distance from the current to start
+    node.gCost = dx + dy;                                          //   G-Cost: Sum of horizontal and vertical cost
+
+    // Calculate the H-Cost: The distance from the GOAL node
+    dx = Math.abs(node.getColumn() - goalNode.getColumn());        //  Horizontal Distance from the current to goal
+    dy = Math.abs(node.getRow() - goalNode.getRow());             //   Vertical Distance from the current to goal
+    node.hCost = dx + dy;                                        //    H-Cost: Sum of horizontal and vertical cost
+
+    // Calculate the F-Cost: the total cost of the G and H costs
     node.fCost = node.gCost + node.hCost;
-    // DISPLAYING THE COST ON NODE
-    if (node != startingNode && node != goalNode) node.setText("G: " + node.gCost);
 }
+
 
 public void pathSearching() {
     long startTime = System.currentTimeMillis(); // STARTING TIME
@@ -247,21 +254,40 @@ public void pathSearching() {
     JOptionPane.showMessageDialog(this, "Path is found in " + elapsedTimeInSeconds + " second(s)");
 }
 
+/**
+ * Evaluate the specified Node in the A* pathfinding algorithm.
+ * If the node is not a wall, has not been checked before and is not yet in the open node list,
+ * It is added to the open node list for further evaluation and marked as open.
+ *
+ * @param node the node to be evaluated
+ */
 private void evaluateNode(Node node) {
+    // Check if the node is not a wall, has not been checked before, and is not already in the open node list
     if (!node.isWall() && !node.isChecked() && !node.isOpen()) {
+        // Set the node as opened, set its parent node to the current node, and add it to the open node list
         node.setOpened();
         node.parentNode = currentNode;
         openNode_List.add(node);
     }
 }
 
+
+/**
+ * Tracks the shortest path from the GOAL node to the STARTING node and marks each node in the path as part of the path.
+ * This method starts from the goal node and follows the parent nodes back to the starting node, marking each Node as
+ * part of the path and incrementing the stepTaken variable.
+ * The path is marked with a green background color.
+ */
 private void pathTracking() {
+    // Start at the goal node and follow the parent nodes back to the starting node
     Node current = goalNode;
     while (current != startingNode) {
         current = current.parentNode;
+        // If the current node is not the starting node, mark it as part of the path and increment the stepTaken variable
         if (current != startingNode) {
             current.drawPath();
             stepTaken++;
+            // Print the stepTaken variable to the console for debugging purposes
             System.out.println(stepTaken);
         }
     }
